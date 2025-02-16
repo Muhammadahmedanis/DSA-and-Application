@@ -32,6 +32,40 @@ class CircularLL{
         }
     }
     
+    void DeleteAtHead(){
+        if(head == NULL){
+            return;
+        }else if(head == tail){
+            delete head;
+            head = tail = NULL;
+        }else{
+            Node* temp = head;
+            head = head -> next;
+            tail -> next = head;
+            temp -> next = NULL;
+            delete temp;
+        }
+    }
+    
+    void DeleteAtTail(){
+        if(head == NULL){
+            return;
+        }else if(head == tail){
+            delete head;
+            head = tail = NULL;
+        }else{
+            Node* temp = tail;
+            Node* prev = head;
+            while(prev -> next != tail){
+                prev = prev -> next;
+            }
+            tail = prev;
+            tail -> next = prev;
+            temp -> next = NULL;
+            delete temp;
+        }
+    }
+    
     void print(){
         if(head == NULL) return;
         Node* temp = head;
@@ -50,7 +84,9 @@ int main() {
     cl.InsertAtHead(2);
     cl.InsertAtHead(1);
     
-    cl.print();
+    cl.DeleteAtHead();
+    cl.DeleteAtTail();
     
+    cl.print();
     return 0;
 }

@@ -90,15 +90,29 @@ public:
     
     int search(int val){
         Node* temp = head;
+        while(temp != NULL){
+            temp = temp -> next;
+            if(temp -> data == val){
+                return 1;
+            }
+        }
+        return 0;
+    };
+
+    void searchAll(int val){
+        vector<int> arr;
+        Node* temp = head;
         int index = 0;
         while(temp != NULL){
             if(temp -> data == val){
-                return index;
+                arr.push_back(index);
             }
-            temp = temp -> next;
-            index++;
+        temp = temp -> next;
+        index++;
         }
-        return -1;
+        for(int i: arr){
+            cout<<i<<" ";
+        }
     }
 
 
@@ -131,4 +145,128 @@ int main() {
     ll.printLL();
     
     return 0;
+}
+
+
+// 2nd Approach
+#include <iostream>
+#include <vector>
+using namespace std;
+
+struct Node {
+    public: 
+    int data;
+    Node* next;
+    
+    public: 
+    Node(int val, Node* next1){
+        data = val;
+        next = next1;
+    }
+    
+    public: 
+    Node(int val){
+        data = val;
+        next = NULL;
+    }
+};
+
+Node* covertArr2LL(vector<int> &arr){
+    Node* head = new Node(arr[0]);
+    Node* mover = head;
+    for(int i = 1; i < arr.size(); i++){
+        Node* temp = new Node(arr[i]);
+        mover -> next = temp;
+        mover = temp;
+    }
+    return head;
+}
+
+Node* removeHead(Node* head){
+    if(head == NULL) return head;
+    Node* temp = head;
+    head = head -> next;
+    temp -> next = NULL;
+    delete temp;
+    return head;
+}
+
+Node* removeTail(Node* head){
+    if(head == NULL) return head;
+    Node* temp = head;
+    while(temp -> next -> next != NULL){
+        temp = temp -> next;
+    }
+    temp -> next = NULL;
+    delete temp -> next;
+    return head;
+}
+
+Node* removeK(Node* head, int k){
+    if(head == NULL) return head;
+    if(k == 1){
+        Node* temp = head;
+        head = head -> next;
+        temp -> next = NULL;
+        delete temp;
+        return head;
+    }
+    
+    int count = 0;
+    Node* temp = head;
+    Node* prev = NULL;
+    while(temp != NULL){
+        count++;
+        if(count == k){
+            prev -> next = prev -> next -> next;
+            delete temp;
+            break;
+        }
+        prev = temp;
+        temp = temp -> next;
+    }
+    return head;
+}
+
+
+Node* removeValue(Node* head, int k){
+    if(head == NULL) return head;
+    if(head -> data == k){
+        Node* temp = head;
+        head = head -> next;
+        temp -> next = NULL;
+        delete temp;
+        return head;
+    }
+    
+    Node* temp = head;
+    Node* prev = NULL;
+    while(temp != NULL){
+        if(temp -> data == k){
+            prev -> next = prev -> next -> next;
+            delete temp;
+            break;
+        }
+        prev = temp;
+        temp = temp -> next;
+    }
+    return head;
+}
+
+int main() {
+   vector<int> arr = {2, 5, 7, 8};
+   Node* head = covertArr2LL(arr);
+   
+//   head = removeHead(head);
+//   head = removeTail(head);
+    //  head = removeK(head, 1); // remove from position
+     head = removeValue(head, 7); // remove from value you want
+     
+   
+   Node* temp = head;
+   while(temp != NULL){
+       cout<<temp -> data <<" -> ";
+      temp = temp -> next;
+   }
+   cout<<"NULL\n";
 }

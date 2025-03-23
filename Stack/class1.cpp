@@ -36,16 +36,15 @@ class Stack {
     
 };
 
-
 int main() {
     Stack st(2);
     st.push(1);
     st.push(2);
     cout<<st.pop()<< " ";
     
-    // while(!st.isEmpty()){
-    //     cout<<st.pop()<<" ";
-    // }
+    while(!st.isEmpty()){
+        cout<<st.pop()<<" ";
+    }
     st.push(3);
     cout<<st.pop()<<" ";
     cout<<st.pop()<<" ";
@@ -53,11 +52,12 @@ int main() {
 
 
 
-//  using dynamic
-class Node{
-    public:
+
+//  Using Linked list
+struct Node{
     int data;
     Node* next;
+    
     public:
     Node(int val){
         data = val;
@@ -71,7 +71,7 @@ class Stack {
     public:
     Stack(){
         top = NULL;
-    }   
+    }
     
     bool isEmpty(){
         return top == NULL;
@@ -82,35 +82,41 @@ class Stack {
         if(isEmpty()){
             top = newNode;
             return;
-        }
+        };
         newNode -> next = top;
         top = newNode;
-    }
+    };
     
     int pop(){
         if(isEmpty()){
-            cout<<"stack underflow";
+            cout<<"Stack is underflow";
             return -1;
-        }
-        Node* toRemove = top;
-        int result = toRemove -> data;
+        };
+        int value = top -> data;
         top = top -> next;
-        delete toRemove;
-        return result;
+        return value;
+    };
+    
+    int getTop(){
+        if(isEmpty()){
+            cout<<"Stack is underflow";
+            return -1;
+        };
+        return top -> data;
     }
     
 };
 
 
 int main() {
-  Stack st;
+    Stack st;
     st.push(1);
     st.push(2);
-    cout << st.pop() << " "; 
     st.push(3);
-
-    while (!st.isEmpty()) {
-        cout << st.pop() << " ";
+    cout<<st.pop()<<endl;
+    cout<<st.getTop();
+    while(!st.isEmpty()){
+        cout<<st.pop()<<" ";
     }
     return 0;
 }
@@ -130,92 +136,17 @@ int main() {
 
 
 
-
-
-
-// #include <iostream>
-// using namespace std;
-
-// class Stack {
-//     int size;
-//     int *arr;
-//     int top; 
-
-// public:
-//     Stack(int size) {
-//         this->size = size;
-//         arr = new int[size];
-//         top = -1; 
+// int pop(){
+//     if(isEmpty()){
+//         cout<<"stack underflow";
+//         return -1;
 //     }
-
-
-//     void push(int data) {
-//         if (top == size - 1) { 
-//             cout << "Stack overflow" << endl;
-//             return;
-//         }
-//         arr[++top] = data; 
-//     }
-
-//     int pop() {
-//         if (top == -1) { 
-//             cout << "Stack underflow" << endl;
-//             return -1; 
-//         }
-//         return arr[top--]; 
-//     }
-
-//     void display() {
-//         if (top == -1) {
-//             cout << "Stack is empty" << endl;
-//             return;
-//         }
-//         cout << "Stack elements: ";
-//         for (int i = 0; i <= top; i++) {
-//             cout << arr[i] << " ";
-//         }
-//         cout << endl;
-//     }
-// };
-
-// int main() {
-//     Stack st(3);
-    
-//     st.push(1);
-//     st.push(2);
-//     st.push(3);
-//     st.push(4);
-
-//     st.display();
-
-//     cout << "Popped: " << st.pop() << endl;
-//     cout << "Popped: " << st.pop() << endl;
-//     cout << "Popped: " << st.pop() << endl;
-//     cout << "Popped: " << st.pop() << endl; 
-
-//     return 0;
+//     Node* toRemove = top;
+//     int result = toRemove -> data;
+//     top = top -> next;
+//     delete toRemove;
+//     return result;
 // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -275,25 +206,8 @@ int main() {
 //     while(!q.isEmpty()){
 //         cout<<q.top()<<" ";
 //         q.dequeue();
-//     }
-    
+//     }    
 // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

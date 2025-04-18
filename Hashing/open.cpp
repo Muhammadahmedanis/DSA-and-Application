@@ -1,197 +1,200 @@
+// linear probing
 #include <iostream>
 using namespace std;
 
-class Hash
-{
-private:
-    int *array;
+class Hash{
+    private:
+    int *arr;
     int size;
-
-public:
-    Hash(int size)
-    {
-        this->size = size;
-        array = new int[size];
-        for (int i = 0; i < size; i++)
-        {
-            array[i] = -1; // -1 means empty
+    
+    public:
+    Hash(int size){
+        this -> size = size;
+        arr = new int[size];
+        for(int i = 0; i < size; i++){
+            arr[i] = -1;
         }
-    }
-
-    int Hashfunc(int data)
-    {
+    };
+    
+    int hashFunc(int data){
         return data % size;
     }
-
-    void Insert(int data)
-    {
-        int index = Hashfunc(data);
-        int i = 1;
-
-        while (array[index] != -1)
-        {
-            index = (index + i * i) % size;
+    
+    void insert(int data){
+        int index = hashFunc(data);
+        int i = 0;
+        while(arr[(index + i) % size] != -1){
             i++;
-
-            if (i == size)
-            {
-                cout << "Hash table is full. Cannot insert " << data << endl;
+            if(i == size){
+                cout<<"Hash table is full";
                 return;
             }
         }
-
-        array[index] = data;
-        cout << "Inserted " << data << " at index " << index << endl;
-    }
-
-    void display()
-    {
-        cout << "\nHash Table (Quadratic Probing):\n";
-        for (int i = 0; i < size; i++)
-        {
-            if (array[i] == -1)
-                cout << "[" << i << "] : Empty" << endl;
-            else
-                cout << "[" << i << "] : " << array[i] << endl;
+        arr[(index + i) % size] = data;
+    };
+    
+    void deleteH(int data){
+        int index = hashFunc(data);
+        int i = 0;
+        while(arr[(index + i) % size] != -1){
+            if(arr[(index + i) % size] == data){
+               arr[(index + i) % size] = -1;
+               return;
+            }
+            i++;
+            if(i == size){
+                cout<<data<<" Not found";
+                return;
+            }
         }
+        cout << "Element " << data << " not found in the hash table.\n";
+    };
+    
+        void search(int data){
+        int index = hashFunc(data);
+        int i = 0;
+        while(arr[(index + i) % size] != -1){
+            if(arr[(index + i) % size] == data){
+               cout<<"value found: "<<arr[(index + i) % size];
+               return;
+            }
+            i++;
+            if(i == size){
+                cout<<data<<" Not found";
+                return;
+            }
+        }
+    };
+    
+    void display(){
+        for(int i = 0; i < size; i++){
+            if(arr[i] != -1){
+                cout << "[" << i << "] : " << arr[i] << endl;
+            }else{
+               cout << "[" << i << "] : Empty" << endl;
+            }
+        }
+    };
+    
+     ~Hash() {
+        delete[] arr; // Frees allocated memory
     }
-
-    ~Hash()
-    {
-        delete[] array;
-    }
+    
 };
 
-int main()
-{
-    cout << "Starting...\n";
-    Hash H1(5);
+int main() {
+    Hash h(10);
+    h.insert(23);
+    h.insert(57);
+    h.insert(33);
+    h.insert(51);
+    h.insert(29);
+    h.insert(91);
+    h.deleteH(91);
+    h.display();
+    cout<<endl;
+    h.search(33);
 
-    H1.Insert(12); // index 2
-    H1.Insert(62); // collision at 2, quadratic probe
-    H1.Insert(52);
-    H1.Insert(42);
-    H1.Insert(32); // fills the table
-    H1.Insert(99); // table is full
-
-    H1.display();
-
-    return 0;
+   return 0;
 }
 
 
 
-// linear probing
-
+// Quadratic Probabing
 #include <iostream>
 using namespace std;
 
-class Hash
-{
-private:
-    int *array;
+class Hash{
+    private:
+    int *arr;
     int size;
-
-public:
-    Hash(int size)
-    {
-        this->size = size;
-        array = new int[size];
-        for (int i = 0; i < size; i++)
-        {
-            array[i] = -1; // -1 means empty
+    
+    public:
+    Hash(int size){
+        this -> size = size;
+        arr = new int[size];
+        for(int i = 0; i < size; i++){
+            arr[i] = -1;
         }
-    }
-
-    int Hashfunc(int data)
-    {
+    };
+    
+    int hashFunc(int data){
         return data % size;
     }
-
-    void Insert(int data)
-    {
-        int index = Hashfunc(data);
+    
+    void insert(int data){
+        int index = hashFunc(data);
         int i = 0;
-
-        while (array[(index + i) % size] != -1 && array[(index + i) % size] != -2) // Check for empty or deleted slot
-        {
+        while(arr[(index + i*i) % size] != -1){
             i++;
-            if (i == size)
-            {
-                cout << "Hash table is full. Cannot insert " << data << endl;
+            if(i == size){
+                cout<<"Hash table is full";
                 return;
             }
         }
-
-        index = (index + i) % size;
-        array[index] = data;
-        cout << "Inserted " << data << " at index " << index << endl;
-    }
-
-    void Delete(int data)
-    {
-        int index = Hashfunc(data);
+        arr[(index + i*i) % size] = data;
+    };
+    
+    void deleteH(int data){
+        int index = hashFunc(data);
         int i = 0;
-
-        while (array[(index + i) % size] != -1) // Search until an empty slot is found
-        {
-            if (array[(index + i) % size] == data)
-            {
-                array[(index + i) % size] = -2; // Mark as deleted
-                cout << "Deleted " << data << " from index " << (index + i) % size << endl;
-                return;
+        while(arr[(index + i*i) % size] != -1){
+            if(arr[(index + i*i) % size] == data){
+               arr[(index + i*i) % size] = -1;
+               return;
             }
             i++;
-            if (i == size)
-            {
-                cout << "Element " << data << " not found in the hash table.\n";
+            if(i == size){
+                cout<<data<<" Not found";
                 return;
             }
         }
-
         cout << "Element " << data << " not found in the hash table.\n";
-    }
-
-    void display()
-    {
-        cout << "\nHash Table (Linear Probing):\n";
-        for (int i = 0; i < size; i++)
-        {
-            if (array[i] == -1)
-                cout << "[" << i << "] : Empty" << endl;
-            else if (array[i] == -2)
-                cout << "[" << i << "] : Deleted" << endl;
-            else
-                cout << "[" << i << "] : " << array[i] << endl;
+    };
+    
+        void search(int data){
+        int index = hashFunc(data);
+        int i = 0;
+        while(arr[(index + i*i) % size] != -1){
+            if(arr[(index + i*i) % size] == data){
+               cout<<"value found: "<<arr[(index + i*i) % size];
+               return;
+            }
+            i++;
+            if(i == size){
+                cout<<data<<" Not found";
+                return;
+            }
         }
+    };
+    
+    void display(){
+        for(int i = 0; i < size; i++){
+            if(arr[i] != -1){
+                cout << "[" << i << "] : " << arr[i] << endl;
+            }else{
+               cout << "[" << i << "] : Empty" << endl;
+            }
+        }
+    };
+    
+     ~Hash() {
+        delete[] arr; // Frees allocated memory
     }
-
-    ~Hash()
-    {
-        delete[] array;
-    }
+    
 };
 
-int main()
-{
-    cout << "Starting...\n";
-    Hash H1(5);
-
-    H1.Insert(12);
-    H1.Insert(62);
-    H1.Insert(52);
-    H1.Insert(42);
-    H1.Insert(32);
-    H1.Insert(99); // Table is full
-
-    H1.display();
-
-    cout << "\nDeleting elements...\n";
-    H1.Delete(62);
-    H1.Delete(42);
-    H1.Delete(99); // Not in the table
-
-    H1.display();
-
+int main() {
+   Hash h(10);
+   h.insert(23);
+   h.insert(56);
+   h.insert(33);
+   h.insert(51);
+   h.insert(29);
+   h.insert(43);
+   h.deleteH(91);
+   h.display();
+//   cout<<endl;
+//   h.search(43);
     return 0;
 }

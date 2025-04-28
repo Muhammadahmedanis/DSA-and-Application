@@ -4,10 +4,11 @@ using namespace std;
 class heap{
     public:
     int size;
-    int arr[10];
+    int* arr;
     
-    heap(){
+    heap(int val){
         size = 0;
+        arr = new int[val];
     }
     
     void insert(int val){
@@ -33,7 +34,7 @@ class heap{
         };
         arr[0] = arr[size-1];
         size--;
-         int i = 0;
+        int i = 0;
         while (i < size) {
             int LChild = 2 * i + 1;
             int RChild = 2 * i + 2;
@@ -64,14 +65,25 @@ class heap{
 };
 
 int main() {
-    heap h;
-    h.insert(54);
-    h.insert(53);
-    h.insert(55);
-    h.insert(52);
-    h.insert(50);
+    heap h(10);
+    h.insert(19);
+    h.insert(23);
+    h.insert(88);
+    h.insert(76);
+    h.insert(120);
+    h.insert(98);
+    h.insert(20);
+    h.insert(15);
+    h.insert(18);
+    h.insert(200);
+    
     h.print();
+    
     h.deleteFromHeap();
     cout<<endl;
     h.print();
 }
+
+
+// output: 200 120 98 19 88 23 20 15 18 76 
+//         120 88 98 19 76 23 20 15 18 

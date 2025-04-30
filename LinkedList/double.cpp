@@ -91,6 +91,41 @@ class DoublyLL{
         }
         cout<<"NULL\n";
     }
+
+    private:
+    Node* lastNode(Node* node) {
+        while (node && node->next)
+            node = node->next;
+        return node;
+    }
+
+    Node* partition(Node* low, Node* high) {
+        int pivot = high->data;
+        Node* i = low->prev;
+
+        for (Node* j = low; j != high; j = j->next) {
+            if (j->data <= pivot) {
+                i = (i == NULL) ? low : i->next;
+                swap(i->data, j->data);
+            }
+        }
+        i = (i == NULL) ? low : i->next;
+        swap(i->data, high->data);
+        return i;
+    }
+
+    void _quickSort(Node* low, Node* high) {
+        if (high != NULL && low != high && low != high->next) {
+            Node* p = partition(low, high);
+            _quickSort(low, p->prev);
+            _quickSort(p->next, high);
+        }
+    }
+
+    void quickSort() {
+        Node* last = lastNode(head);
+        _quickSort(head, last);
+    }
 };
 
 
@@ -99,23 +134,28 @@ int main() {
     dl.push_Front(2);
     dl.push_Front(1);
     
-    dl.push_Back(1);
-    dl.push_Back(2);
-    
-    dl.pop_Front();
-    
-    dl.pop_Back();
-    
+    dl.push_Back(30);
+    dl.push_Back(3);
+    dl.push_Back(4);
+    dl.push_Back(20);
+    dl.push_Back(5);
+
+    cout << "Before Sorting: ";
     dl.print();
 
-    cout<<dl.search(2);
-    
+    dl.quickSort();
+
+    cout << "After Quick Sort: ";
+
+    dl.print();
+
+    // cout<<dl.search(2);    
     return 0;
 }
 
 
 
-// 2nd Approach ************************************************
+    // 2nd Approach ************************************************
 
 #include <iostream>
 #include <vector>

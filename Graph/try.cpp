@@ -76,108 +76,394 @@ int main() {
 
 
 
-#include <iostream>
-#include <vector>
-#include <queue>
-#include <stack>
-using namespace std;
+// #include <iostream>
+// #include <vector>
+// #include <queue>
+// #include <stack>
+// using namespace std;
 
-void bfs(vector<vector<int>>& graph, vector<bool>& visited, int start){
-    queue<int> q;
-    q.push(start);
-    visited[start] = true;
-    
-    while(!q.empty()){
-        int node = q.front();
-        q.pop();
-        cout<<node<<" ";
-        
-        for(int i = 0; i < graph.size(); i++){
-            if(graph[node][i] == 1 && !visited[i]){
-                q.push(i);
-                visited[i] = true;
-            }
-        }
-    }
-}
+// void bfs(vector<vector<int>>& graph, vector<bool>& visited, int start) {
+//     queue<int> q;
+//     q.push(start);
+//     visited[start] = true;
 
-void bfsTraversal(vector<vector<int>>& graph, int v){
-    vector<bool> visited(v, false);
-    for(int i = 0; i < v; i++){
-        if(!visited[i]){
-            bfs(graph, visited, i);
-        }
-    }
-}
+//     while (!q.empty()) {
+//         int node = q.front();
+//         q.pop();
+//         cout << node << " ";
+
+//         for (int i = 0; i < graph.size(); i++) {
+//             if (graph[node][i] == 1 && !visited[i]) {
+//                 q.push(i);
+//                 visited[i] = true;
+//             }
+//         }
+//     }
+// }
+
+// bool isDeleted(vector<vector<int>>& graph, int vertex) {
+//     for (int i = 0; i < graph.size(); i++) {
+//         if (graph[vertex][i] == 1 || graph[i][vertex] == 1) {
+//             return false;
+//         }
+//     }
+//     return true;
+// }
+
+// void bfsTraversal(vector<vector<int>>& graph, int v) {
+//     vector<bool> visited(v, false);
+//     for (int i = 0; i < v; i++) {
+//         if (!visited[i] && !isDeleted(graph, i)) {
+//             bfs(graph, visited, i);
+//         }
+//     }
+// }
+
+// void dfsTraversal(vector<vector<int>>& graph, int v) {
+//     vector<bool> visited(v, false);
+//     stack<int> st;
+
+//     for (int i = 0; i < v; i++) {
+//         if (!visited[i] && !isDeleted(graph, i)) {
+//             st.push(i);
+
+//             while (!st.empty()) {
+//                 int node = st.top();
+//                 st.pop();
+
+//                 if (!visited[node]) {
+//                     visited[node] = true;
+//                     cout << node << " ";
+//                 }
+
+//                 for (int j = graph[node].size() - 1; j >= 0; j--) {
+//                     if (graph[node][j] == 1 && !visited[j]) {
+//                         st.push(j);
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }
+
+// void deleteVertex(vector<vector<int>>& graph, int vertex) {
+//     int n = graph.size();
+//     for (int i = 0; i < n; i++) {
+//         graph[vertex][i] = 0; // Remove all outgoing edges
+//         graph[i][vertex] = 0; // Remove all incoming edges
+//     }
+//     cout << "Vertex " << vertex << " and all its connections deleted.\n";
+// }
+
+// bool cycleUtil(vector<vector<int>>& graph, int node, vector<bool>& visited, vector<bool>& recStack) {
+//     if (!visited[node]) {
+//         visited[node] = true;
+//         recStack[node] = true;
+
+//         for (int i = 0; i < graph.size(); i++) {
+//             if (graph[node][i] == 1) {
+//                 if (!visited[i] && cycleUtil(graph, i, visited, recStack)) {
+//                     return true;
+//                 } else if (recStack[i]) {
+//                     return true;
+//                 }
+//             }
+//         }
+//     }
+//     recStack[node] = false;
+//     return false;
+// }
+
+// bool isCyclic(vector<vector<int>>& graph) {
+//     vector<bool> visited(graph.size(), false);
+//     vector<bool> recStack(graph.size(), false);
+
+//     for (int i = 0; i < graph.size(); i++) {
+//         if (!isDeleted(graph, i) && cycleUtil(graph, i, visited, recStack)) {
+//             return true;
+//         }
+//     }
+//     return false;
+// }
+
+// int main() {
+//     int vertices, isDirected, edges;
+//     cout << "Enter number of vertices: ";
+//     cin >> vertices;
+
+//     cout << "Enter 1 for Directed Graph, 0 for Undirected Graph: ";
+//     cin >> isDirected;
+
+//     vector<vector<int>> graph(vertices, vector<int>(vertices, 0));
+
+//     cout << "Enter number of edges: ";
+//     cin >> edges;
+//     cout << "Enter the edges (format: from to):\n";
+//     for (int i = 0; i < edges; ++i) {
+//         int u, v;
+//         cout << "Edge " << i + 1 << ": ";
+//         cin >> u >> v;
+
+//         graph[u][v] = 1;
+//         if (!isDirected) {
+//             graph[v][u] = 1; // for undirected graph
+//         }
+//     }
+
+//     cout << "\nAdjacency Matrix:\n";
+//     for (int i = 0; i < vertices; i++) {
+//         for (int j = 0; j < vertices; j++) {
+//             cout << graph[i][j] << " ";
+//         }
+//         cout << endl;
+//     }
+
+//     cout << "\nBFS Traversal: ";
+//     bfsTraversal(graph, vertices);
+
+//     cout << "\nDFS Traversal: ";
+//     dfsTraversal(graph, vertices);
+
+//     if (isCyclic(graph)) {
+//         cout << "\nThe graph contains a cycle.\n";
+//     } else {
+//         cout << "\nThe graph does not contain a cycle.\n";
+//     }
+
+//     int vertexToDelete;
+//     cout << "\nEnter vertex to delete: ";
+//     cin >> vertexToDelete;
+
+//     if (vertexToDelete >= 0 && vertexToDelete < vertices) {
+//         deleteVertex(graph, vertexToDelete);
+//     } else {
+//         cout << "Invalid vertex index.\n";
+//     }
+
+//     cout << "\nUpdated Adjacency Matrix:\n";
+//     for (int i = 0; i < vertices; i++) {
+//         for (int j = 0; j < vertices; j++) {
+//             cout << graph[i][j] << " ";
+//         }
+//         cout << endl;
+//     }
+
+//     return 0;
+// }
 
 
-void dfsTraversal(vector<vector<int>>& graph, int v){
-    vector<bool> visited(v, false);
-    stack<int> st;
-    
-    for(int i = 0; i < v; i++){
-        if(!visited[i]){
-            st.push(i);
-            
-            while(!st.empty()){
-                int node = st.top();
-                st.pop();
-                
-                if(!visited[node]){
-                    visited[node] = true;
-                    cout<<node<<" ";
-                }
-                for(int j = graph[node].size()-1;  j >= 0; j--){
-                    int neighbor = graph[node][j];
-                    if(!visited[neighbor]){
-                        st.push(neighbor);
-                    }
-                }
-            }
-        }
-    }
-}
 
 
 
 
-int main() {
-    int vertices, isDirected, edges;
-    cout<<"Enter number of vertices: ";
-    cin>>vertices;
-    
-    cout << "Enter 1 for Directed Graph, 0 for Undirected Graph: ";
-    cin >> isDirected;
-    
-    vector<vector<int>> graph(vertices, vector<int>(vertices, 0));
-    
-    cout << "Enter number of edges: ";
-    cin >> edges;
-    cout << "Enter the edges (format: from to):\n";
-    for (int i = 0; i < edges; ++i) {
-        int u, v;
-        cout << "Edge " << i + 1 << ": ";
-        cin >> u >> v;
-        
-        graph[u][v] = 1;
-        if (!isDirected) {
-            graph[v][u] = 1; // for undirected graph
-        }
-    }
+// #include <iostream>
+// #include <vector>
+// #include <queue>
+// #include <stack>
+// using namespace std;
 
-    cout << "\nAdjacency Matrix:\n";
-    for(int i = 0; i < vertices; i++){
-        for(int j = 0; j < vertices; j++){
-            cout<<graph[i][j]<<" ";            
-        }
-        cout<<endl;
-    }
-    
-    cout<<"\nBFS Traversal: ";
-    bfsTraversal(graph, vertices);
-    
-    cout<<"\nDFS Traversal: ";
-    dfsTraversal(graph, vertices);
+// int charToIndex(char c) {
+//     if (c >= 'A' && c <= 'Z') return c - 'A';
+//     else if (c >= 'a' && c <= 'z') return c - 'a' + 26;
+//     return -1;
+// }
 
-    return 0;
-}
+// char indexToChar(int i) {
+//     if (i >= 0 && i < 26) return 'A' + i;
+//     else if (i >= 26 && i < 52) return 'a' + (i - 26);
+//     return '?';
+// }
+
+// void bfs(vector<vector<int>>& graph, vector<bool>& visited, int start) {
+//     queue<int> q;
+//     q.push(start);
+//     visited[start] = true;
+
+//     while (!q.empty()) {
+//         int node = q.front();
+//         q.pop();
+//         cout << indexToChar(node) << " ";
+
+//         for (int i = 0; i < graph.size(); i++) {
+//             if (graph[node][i] == 1 && !visited[i]) {
+//                 q.push(i);
+//                 visited[i] = true;
+//             }
+//         }
+//     }
+// }
+
+// bool isDeleted(vector<vector<int>>& graph, int vertex) {
+//     for (int i = 0; i < graph.size(); i++) {
+//         if (graph[vertex][i] == 1 || graph[i][vertex] == 1) {
+//             return false;
+//         }
+//     }
+//     return true;
+// }
+
+// void bfsTraversal(vector<vector<int>>& graph, int v) {
+//     vector<bool> visited(v, false);
+//     for (int i = 0; i < v; i++) {
+//         if (!visited[i] && !isDeleted(graph, i)) {
+//             bfs(graph, visited, i);
+//         }
+//     }
+// }
+
+// void dfsTraversal(vector<vector<int>>& graph, int v) {
+//     vector<bool> visited(v, false);
+//     stack<int> st;
+
+//     for (int i = 0; i < v; i++) {
+//         if (!visited[i] && !isDeleted(graph, i)) {
+//             st.push(i);
+
+//             while (!st.empty()) {
+//                 int node = st.top();
+//                 st.pop();
+
+//                 if (!visited[node]) {
+//                     visited[node] = true;
+//                     cout << indexToChar(node) << " ";
+//                 }
+
+//                 for (int j = graph[node].size() - 1; j >= 0; j--) {
+//                     if (graph[node][j] == 1 && !visited[j]) {
+//                         st.push(j);
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }
+
+// void deleteVertex(vector<vector<int>>& graph, int vertex) {
+//     int n = graph.size();
+//     for (int i = 0; i < n; i++) {
+//         graph[vertex][i] = 0;
+//         graph[i][vertex] = 0;
+//     }
+//     cout << "Vertex " << indexToChar(vertex) << " and all its connections deleted.\n";
+// }
+
+// bool cycleUtil(vector<vector<int>>& graph, int node, vector<bool>& visited, vector<bool>& recStack) {
+//     if (!visited[node]) {
+//         visited[node] = true;
+//         recStack[node] = true;
+
+//         for (int i = 0; i < graph.size(); i++) {
+//             if (graph[node][i] == 1) {
+//                 if (!visited[i] && cycleUtil(graph, i, visited, recStack)) {
+//                     return true;
+//                 } else if (recStack[i]) {
+//                     return true;
+//                 }
+//             }
+//         }
+//     }
+//     recStack[node] = false;
+//     return false;
+// }
+
+// bool isCyclic(vector<vector<int>>& graph) {
+//     vector<bool> visited(graph.size(), false);
+//     vector<bool> recStack(graph.size(), false);
+
+//     for (int i = 0; i < graph.size(); i++) {
+//         if (!isDeleted(graph, i) && cycleUtil(graph, i, visited, recStack)) {
+//             return true;
+//         }
+//     }
+//     return false;
+// }
+
+// int main() {
+//     int vertices, isDirected, edges;
+//     cout << "Enter number of vertices (max 52 for A-Z, a-z): ";
+//     cin >> vertices;
+
+//     if (vertices > 52) {
+//         cout << "Maximum supported vertices are 52 (A-Z, a-z).\n";
+//         return 1;
+//     }
+
+//     cout << "Enter 1 for Directed Graph, 0 for Undirected Graph: ";
+//     cin >> isDirected;
+
+//     vector<vector<int>> graph(vertices, vector<int>(vertices, 0));
+
+//     cout << "Enter number of edges: ";
+//     cin >> edges;
+
+//     cout << "Enter the edges (format: from to, like A B or a b):\n";
+//     for (int i = 0; i < edges; ++i) {
+//         char fromChar, toChar;
+//         cout << "Edge " << i + 1 << ": ";
+//         cin >> fromChar >> toChar;
+
+//         int u = charToIndex(fromChar);
+//         int v = charToIndex(toChar);
+
+//         if (u == -1 || v == -1 || u >= vertices || v >= vertices) {
+//             cout << "Invalid edge. Skipping.\n";
+//             continue;
+//         }
+
+//         graph[u][v] = 1;
+//         if (!isDirected) {
+//             graph[v][u] = 1;
+//         }
+//     }
+
+//     cout << "\nAdjacency Matrix:\n  ";
+//     for (int i = 0; i < vertices; i++) {
+//         cout << indexToChar(i) << " ";
+//     }
+//     cout << "\n";
+//     for (int i = 0; i < vertices; i++) {
+//         cout << indexToChar(i) << " ";
+//         for (int j = 0; j < vertices; j++) {
+//             cout << graph[i][j] << " ";
+//         }
+//         cout << endl;
+//     }
+
+//     cout << "\nBFS Traversal: ";
+//     bfsTraversal(graph, vertices);
+
+//     cout << "\nDFS Traversal: ";
+//     dfsTraversal(graph, vertices);
+
+//     if (isCyclic(graph)) {
+//         cout << "\nThe graph contains a cycle.\n";
+//     } else {
+//         cout << "\nThe graph does not contain a cycle.\n";
+//     }
+
+//     char vertexChar;
+//     cout << "\nEnter vertex to delete (e.g., A, b): ";
+//     cin >> vertexChar;
+
+//     int vertexToDelete = charToIndex(vertexChar);
+//     if (vertexToDelete >= 0 && vertexToDelete < vertices) {
+//         deleteVertex(graph, vertexToDelete);
+//     } else {
+//         cout << "Invalid vertex.\n";
+//     }
+
+//     cout << "\nUpdated Adjacency Matrix:\n  ";
+//     for (int i = 0; i < vertices; i++) {
+//         cout << indexToChar(i) << " ";
+//     }
+//     cout << "\n";
+//     for (int i = 0; i < vertices; i++) {
+//         cout << indexToChar(i) << " ";
+//         for (int j = 0; j < vertices; j++) {
+//             cout << graph[i][j] << " ";
+//         }
+//         cout << endl;
+//     }
+
+//     return 0;
+// }

@@ -5,7 +5,6 @@ using namespace std;
 struct Node{
     int data;
     Node* next;
-    
     Node(int val){
         data = val;
         next = NULL;
@@ -54,12 +53,16 @@ class hashTable{
                 }else{
                     prev -> next = temp -> next;
                 }
+                delete temp;
+                cout << "Value " << data << " deleted successfully" << endl;
+                return;
             }
             prev = temp;
             temp = temp -> next;
         }
-        cout<<"Value not found";
+        cout << "Value " << data << " not found" << endl;
     }
+    
     
     bool search(int data){
         int index = hashFunc(data);

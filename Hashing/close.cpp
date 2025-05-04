@@ -198,31 +198,117 @@
 
 
 // DOUBLE-HASHING
-// #include <iostream>
-// using namespace std;
 
-// class DoubleHashing{
+// class doubleHashing{
+//     int* arr;
 //     int size;
-//     int* table;
     
 //     public:
-//     DoubleHashing(int size){
+//     doubleHashing(int size){
 //         this -> size = size;
-//         table = new int[size];
+//         arr = new int[size];
 //         for(int i = 0; i < size; i++){
-//             table[i] = -1;
+//             arr[i] = -1;
 //         }
-//     }
+//     };
+    
     
 //     int hash1(int data){
 //         return data % size;
-//     }
+//     };
     
 //     int hash2(int data){
 //         return size - (data % size);
-//     }
+//     };
     
     
+//     void insert(int data){
+//         int index = hash1(data);
+//         if(arr[index] == -1){
+//             arr[index] = data;
+//             return;
+//         }
+//         int i = 1;
+//         while(i < size){
+//             int newIndex = (index + i * hash2(data)) % size;
+//             if(arr[newIndex] == -1){
+//                 arr[newIndex] = data;
+//                 return;
+//             }
+//             i++;
+//         }
+//     };
+    
+    
+//     void search(int data){
+//         int index = hash1(data);
+//         int i = 0;
+//         while(arr[(index + i * hash2(data)) % size] != -1){
+//             if(arr[(index + i * hash2(data)) % size] == data){
+//                 cout<<"Value found";
+//                 return;
+//             }
+//             i++;
+//              if(i == size){
+//                 cout<<"Hash table is full value not found";
+//                 return;
+//             }
+//         }
+//         cout<<"given input not fount"<<data;
+//     };
+    
+    
+    
+//     void deleteH(int data){
+//         int index = hash1(data);
+//         int i = 0;
+//         while(arr[(index + i * hash2(data)) % size] != -1){
+//             if(arr[(index + i * hash2(data)) % size] == data){
+//                 arr[(index + i * hash2(data)) % size] = -1;
+//                 return;
+//             }
+//             i++;
+//              if(i == size){
+//                 cout<<"Hash table is full value not found";
+//                 return;
+//             }
+//         }
+//          cout<<"given input not fount"<<data;
+//     };
+    
+    
+    
+//     void display(){
+//         for(int i = 0; i < size; i++){
+//             if(arr[i] != -1){
+//                 cout << "[" << i << "] : " << arr[i] << endl;
+//             }else{
+//                 cout << "[" << i << "] : Empty" << endl;
+//             }
+//         }
+//     };
+    
+// };
+
+
+// int main() {
+//     doubleHashing h(10);
+//     h.insert(21);
+//     h.insert(28);
+//     h.insert(76);
+//     h.insert(19);
+//     h.insert(34);
+//     h.insert(10);
+//     h.insert(52);
+//     h.deleteH(10);
+//     h.display();
+//     h.search(34);
+//     return 0;
+// }
+
+
+
+// class DoubleHashing{    
 //     void insert(int data){
 //         int index =  hash1(data);
 //         if(table[index] == -1){
@@ -239,28 +325,6 @@
 //             }
 //             i++;
 //         }
-//     }
-    
-    
-//     void display(){
-//         for(int i = 0; i < size; i++){
-//             if(table[i] != -1){
-//                 cout << "[" << i << "] : " << table[i] << endl;
-//             }else{
-//                 cout << "[" << i << "] : Empty" << endl;
-//             }
-//         }
-//     }
-    
+//     }    
     
 // };
-
-// int main() {
-//     DoubleHashing DH(7);
-//     DH.insert(23);
-//     DH.insert(78);
-//     DH.insert(13);
-//     DH.display();
-
-//     return 0;
-// }

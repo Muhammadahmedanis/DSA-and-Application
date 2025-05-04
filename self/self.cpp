@@ -69,7 +69,7 @@
 
 
 
-// mergeSort 
+// mergeSort  singlelist
 
 
 // #include <iostream>
@@ -183,7 +183,7 @@
 
 
 
-// mergeSortedLists(
+// two mergeSortedLists(
 
 
 // #include <iostream>
@@ -862,5 +862,97 @@
 //     root2 = insertLevelOrder(root2, 2);
 
 //     cout << "Tree 1 is mirror of Tree 2? " << (isMirror(root1, root2) ? "Yes" : "No") << endl;
+//     return 0;
+// }
+
+
+
+
+
+//  last occernace of element in list
+// #include <iostream>
+// using namespace std;
+
+// struct Node {
+//     int data;
+//     Node* next;
+    
+//     Node(int val) {
+//         data = val;
+//         next = nullptr;
+//     }
+// };
+
+// void insertEnd(Node*& head, int val) {
+//     Node* newNode = new Node(val);
+//     if (!head) {
+//         head = newNode;
+//         return;
+//     }
+
+//     Node* temp = head;
+//     while (temp->next) temp = temp->next;
+//     temp->next = newNode;
+// }
+
+// void deleteLastOccurrence(Node*& head, int key) {
+//     Node* temp = head;
+//     Node* lastOccur = nullptr;
+//     Node* lastOccurPrev = nullptr;
+//     Node* prev = nullptr;
+
+//     while (temp) {
+//         if (temp->data == key) {
+//             lastOccur = temp;
+//             lastOccurPrev = prev;
+//         }
+//         prev = temp;
+//         temp = temp->next;
+//     }
+
+//     if (!lastOccur) {
+//         cout << "Value " << key << " not found.\n";
+//         return;
+//     }
+
+//     if (!lastOccurPrev) {
+//         head = head->next;
+//     } else {
+//         lastOccurPrev->next = lastOccur->next;
+//     }
+
+//     delete lastOccur;
+// }
+
+// void printList(Node* head) {
+//     while (head) {
+//         cout << head->data << " → ";
+//         head = head->next;
+//     }
+//     cout << "NULL\n";
+// }
+
+// int main() {
+//     Node* head = nullptr;
+
+//     insertEnd(head, 10);
+//     insertEnd(head, 20);
+//     insertEnd(head, 30);
+//     insertEnd(head, 20);
+//     insertEnd(head, 40);
+//     insertEnd(head, 50);
+
+//     cout << "Original list:\n";
+//     printList(head);
+
+//     int value;
+//     cout << "Enter value to delete last occurrence: ";
+//     cin >> value;
+
+//     deleteLastOccurrence(head, value);
+
+//     cout << "List after deleting last occurrence of " << value << ":\n";
+//     printList(head);
+
 //     return 0;
 // }

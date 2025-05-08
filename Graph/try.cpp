@@ -1,75 +1,77 @@
-#include <iostream>
-using namespace std;
+// using array to represent graph
 
-int main() {
-    int vertices, isDirected;
+// #include <iostream>
+// using namespace std;
 
-    cout << "\nEnter the number of vertices: ";
-    cin >> vertices;
+// int main() {
+//     int vertices, isDirected;
 
-    cout << "Enter 1 for Directed Graph, 0 for Undirected Graph: ";
-    cin >> isDirected;
+//     cout << "\nEnter the number of vertices: ";
+//     cin >> vertices;
 
-    int graph[100][100] = {0}; // initialized to 0
+//     cout << "Enter 1 for Directed Graph, 0 for Undirected Graph: ";
+//     cin >> isDirected;
 
-    int edges;
-    cout << "Enter number of edges: ";
-    cin >> edges;
+//     int graph[100][100] = {0};
 
-    cout << "Enter the edges (format: from to):\n";
-    for (int i = 0; i < edges; ++i) {
-        int u, v;
-        cout << "Edge " << i + 1 << ": ";
-        cin >> u >> v;
+//     int edges;
+//     cout << "Enter number of edges: ";
+//     cin >> edges;
+
+//     cout << "Enter the edges (format: from to):\n";
+//     for (int i = 0; i < edges; ++i) {
+//         int u, v;
+//         cout << "Edge " << i + 1 << ": ";
+//         cin >> u >> v;
         
-        if(isDirected){
-            graph[u][v] = 1;
-        }else{
-            graph[u][v] = 1; // edge from u to v
-            if (!isDirected) {
-                graph[v][u] = 1; // for undirected graph
-            }
-        }
-    }
+//         if(isDirected){
+//             graph[u][v] = 1;
+//         }else{
+//             graph[u][v] = 1; // edge from u to v
+//             if (!isDirected) {
+//                 graph[v][u] = 1; // for undirected graph
+//             }
+//         }
+//     }
 
-    cout << "\nAdjacency Matrix:\n";
-    for (int i = 0; i < vertices; ++i) {
-        for (int j = 0; j < vertices; ++j) {
-            cout << graph[i][j] << " ";
-        }
-        cout << endl;
-    }
-    //  return 0;
-    int vertex;
-    cout<<"\nEnter vertex to find its degree: ";
-    cin>>vertex;
-    if(!isDirected){
-    int degree = 0;
-        for(int i = 0; i < vertices; i++){
-            if(graph[vertex][i] == 1){
-                degree++;
-            }
-        }
-        cout << "Degree of vertex " << vertex << " = " << degree << endl;
-    }else{
-        int inDegree = 0;
-        int outDegree = 0;
-        for(int i = 0; i < vertices; i++){
-             if(graph[i][vertex] == 1){
-                inDegree++;
-            }
-        }
+//     cout << "\nAdjacency Matrix:\n";
+//     for (int i = 0; i < vertices; ++i) {
+//         for (int j = 0; j < vertices; ++j) {
+//             cout << graph[i][j] << " ";
+//         }
+//         cout << endl;
+//     }
+
+//     int vertex;
+//     cout<<"\nEnter vertex to find its degree: ";
+//     cin>>vertex;
+//     if(!isDirected){
+//     int degree = 0;
+//         for(int i = 0; i < vertices; i++){
+//             if(graph[vertex][i] == 1){
+//                 degree++;
+//             }
+//         }
+//         cout << "Degree of vertex " << vertex << " = " << degree << endl;
+//     }else{
+//         int inDegree = 0;
+//         int outDegree = 0;
+//         for(int i = 0; i < vertices; i++){
+//              if(graph[i][vertex] == 1){
+//                 inDegree++;
+//             }
+//         }
         
-        for(int j = 0; j < vertices; j++){
-             if(graph[vertex][j] == 1){
-                outDegree++;
-            }
-        }
+//         for(int j = 0; j < vertices; j++){
+//              if(graph[vertex][j] == 1){
+//                 outDegree++;
+//             }
+//         }
         
-        cout << "In-degree of vertex " << vertex << " = " << inDegree << endl;
-        cout << "Out-degree of vertex " << vertex << " = " << outDegree << endl;
-    }   
-}
+//         cout << "In-degree of vertex " << vertex << " = " << inDegree << endl;
+//         cout << "Out-degree of vertex " << vertex << " = " << outDegree << endl;
+//     }   
+// }
 
 
 
@@ -145,6 +147,20 @@ int main() {
 //         }
 //     }
 // }
+
+// void deleteEdge(vector<vector<int>>& graph, int src, int dest, bool isDirected) {
+//     int n = graph.size();
+//     if (src >= 0 && src < n && dest >= 0 && dest < n) {
+//         graph[src][dest] = 0;
+//         if (!isDirected) {
+//             graph[dest][src] = 0; // For undirected graph
+//         }
+//         cout << "Edge from " << src << " to " << dest << " deleted.\n";
+//     } else {
+//         cout << "Invalid source or destination vertex.\n";
+//     }
+// }
+
 
 // void deleteVertex(vector<vector<int>>& graph, int vertex) {
 //     int n = graph.size();
@@ -239,6 +255,11 @@ int main() {
 //     } else {
 //         cout << "Invalid vertex index.\n";
 //     }
+    
+//     int src, dest;
+//     cout << "\nEnter source and destination to delete an edge: ";
+//     cin >> src >> dest;
+//     deleteEdge(graph, src, dest, isDirected);
 
 //     cout << "\nUpdated Adjacency Matrix:\n";
 //     for (int i = 0; i < vertices; i++) {
@@ -247,7 +268,6 @@ int main() {
 //         }
 //         cout << endl;
 //     }
-
 //     return 0;
 // }
 
@@ -255,6 +275,9 @@ int main() {
 
 
 
+
+
+// using char to represent graph
 
 // #include <iostream>
 // #include <vector>
@@ -346,6 +369,20 @@ int main() {
 //     }
 //     cout << "Vertex " << indexToChar(vertex) << " and all its connections deleted.\n";
 // }
+
+
+// void deleteEdge(vector<vector<int>>& graph, int src, int dest, bool isDirected) {
+//     if (src >= 0 && src < graph.size() && dest >= 0 && dest < graph.size()) {
+//         graph[src][dest] = 0;
+//         if (!isDirected) {
+//             graph[dest][src] = 0;
+//         }
+//         cout << "Edge from " << indexToChar(src) << " to " << indexToChar(dest) << " deleted.\n";
+//     } else {
+//         cout << "Invalid vertices for deletion.\n";
+//     }
+// }
+
 
 // bool cycleUtil(vector<vector<int>>& graph, int node, vector<bool>& visited, vector<bool>& recStack) {
 //     if (!visited[node]) {
@@ -451,6 +488,15 @@ int main() {
 //     } else {
 //         cout << "Invalid vertex.\n";
 //     }
+    
+//     char srcChar, destChar;
+//     cout << "\nEnter edge to delete (format: from to, like A B): ";
+//     cin >> srcChar >> destChar;
+    
+//     int src = charToIndex(srcChar);
+//     int dest = charToIndex(destChar);
+    
+//     deleteEdge(graph, src, dest, isDirected);
 
 //     cout << "\nUpdated Adjacency Matrix:\n  ";
 //     for (int i = 0; i < vertices; i++) {

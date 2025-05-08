@@ -1,242 +1,245 @@
-#include <iostream>
-#include <queue>
-#include <stack>
-using namespace std;
+// #include <iostream>
+// #include <queue>
+// #include <stack>
+// using namespace std;
 
-struct Node{
-    Node* next;
-    int vertex;
-    Node(int v){
-        vertex = v;
-        next = NULL;
-    }
-};
+// struct Node{
+//     Node* next;
+//     int vertex;
+//     Node(int v){
+//         vertex = v;
+//         next = NULL;
+//     }
+// };
 
-struct Graph{
-    int v;
-    Node** adj;
+// struct Graph{
+//     int v;
+//     Node** adj;
     
-    Graph(int vertices){
-        v = vertices;
-        adj = new Node*[v];
+//     Graph(int vertices){
+//         v = vertices;
+//         adj = new Node*[v];
         
-        for(int i = 0; i < vertices; i++){
-            adj[i] = nullptr;
-        }
-    };
+//         for(int i = 0; i < vertices; i++){
+//             adj[i] = nullptr;
+//         }
+//     };
     
-    
-    void addEdge(int src, int des){
-        Node* newNode = new Node(des);
+//     void addEdge(int src, int des){
+//         Node* newNode = new Node(des);
         
-        if(adj[src] == nullptr){
-            adj[src] = newNode;
-        }else{
-            Node* temp = adj[src];
-            while(temp -> next != nullptr){
-                temp = temp -> next;
-            }
-            temp -> next = newNode;
-        }
-    };
+//         if(adj[src] == nullptr){
+//             adj[src] = newNode;
+//         }else{
+//             Node* temp = adj[src];
+//             while(temp -> next != nullptr){
+//                 temp = temp -> next;
+//             }
+//             temp -> next = newNode;
+//         }
+//     };
     
-    
-    void bfs(int start){
-        bool* visited = new bool[v]{false};
-        int* queue = new int[v];
-        int front = 0, rear = 0;
+//     void bfs(int start){
+//         bool* visited = new bool[v]{false};
+//         int* queue = new int[v];
+//         int front = 0, rear = 0;
         
-        visited[start] = true;
-        queue[rear++] = start;
+//         visited[start] = true;
+//         queue[rear++] = start;
         
-        cout << "BFS Traversal: "; 
-        while(front < rear){
-            int current = queue[front++];
-            cout<<current<<" ";
-            Node* temp = adj[current];
-            while(temp != nullptr){
-                if(!visited[temp -> vertex]){
-                    visited[temp -> vertex] = true;
-                    queue[rear++] = temp -> vertex;
-                }
-                temp = temp -> next;
-            }
-        }
-        cout << endl;
-    };
+//         cout << "BFS Traversal: "; 
+//         while(front < rear){
+//             int current = queue[front++];
+//             cout<<current<<" ";
+//             Node* temp = adj[current];
+//             while(temp != nullptr){
+//                 if(!visited[temp -> vertex]){
+//                     visited[temp -> vertex] = true;
+//                     queue[rear++] = temp -> vertex;
+//                 }
+//                 temp = temp -> next;
+//             }
+//         }
+//         cout << endl;
+//     };
     
-    void dfs(int start){
-        bool* visited = new bool[v]{false};
-        int* stack = new int[v];
-        int top = -1;
-        stack[++top] = start;
-        cout << "DFS Traversal: ";
-        while(top != -1){
-            int current = stack[top--];
-            if(!visited[current]){
-                cout << current << " ";
-                visited[current] = true;
-            }
-            Node* temp = adj[current];
-            while(temp != nullptr){
-                if(!visited[temp -> vertex]){
-                    stack[++top] = temp -> vertex;
-                }
-                temp = temp -> next;
-            }
-        }
-        cout<<endl;
-    };
+//     void dfs(int start){
+//         bool* visited = new bool[v]{false};
+//         int* stack = new int[v];
+//         int top = -1;
+//         stack[++top] = start;
+//         cout << "DFS Traversal: ";
+//         while(top != -1){
+//             int current = stack[top--];
+//             if(!visited[current]){
+//                 cout << current << " ";
+//                 visited[current] = true;
+//             }
+//             Node* temp = adj[current];
+//             while(temp != nullptr){
+//                 if(!visited[temp -> vertex]){
+//                     stack[++top] = temp -> vertex;
+//                 }
+//                 temp = temp -> next;
+//             }
+//         }
+//         cout<<endl;
+//     };
     
-    
-    
-    bool isCyclicUtil(int node, bool* visited, bool* recStack){
-        visited[node] = true;
-        recStack[node] = true;
+//     bool isCyclicUtil(int node, bool* visited, bool* recStack){
+//         visited[node] = true;
+//         recStack[node] = true;
         
-        Node* temp = adj[node];
-        while(temp != nullptr){
-            int neighbor = temp -> vertex;
-            if(!visited[neighbor] && isCyclicUtil(neighbor, visited, recStack)){
-                return true;
-            }else if (recStack[neighbor]){
-                return true;
-            }
-            temp = temp -> next;
-        }
-        recStack[node] = false;
-        return false;
-    };
+//         Node* temp = adj[node];
+//         while(temp != nullptr){
+//             int neighbor = temp -> vertex;
+//             if(!visited[neighbor] && isCyclicUtil(neighbor, visited, recStack)){
+//                 return true;
+//             }else if (recStack[neighbor]){
+//                 return true;
+//             }
+//             temp = temp -> next;
+//         }
+//         recStack[node] = false;
+//         return false;
+//     };
     
-    
-    bool isCyclic(){
-        bool* visited = new bool[v]{false};
-        bool* recStack = new bool[v]{false};
+//     bool isCyclic(){
+//         bool* visited = new bool[v]{false};
+//         bool* recStack = new bool[v]{false};
         
-        for(int i = 0; i < v; i++){
-            if(!visited[i]){
-                if(isCyclicUtil(i, visited, recStack)){
-                    return true;
-                }
-            }
-        }
-        return false;
-    };
+//         for(int i = 0; i < v; i++){
+//             if(!visited[i]){
+//                 if(isCyclicUtil(i, visited, recStack)){
+//                     return true;
+//                 }
+//             }
+//         }
+//         return false;
+//     };
     
-    void deleteEdge(int src, int des){
-        Node* temp = adj[src];
-        Node* prev = nullptr;
+//     void deleteEdge(int src, int des){
+//         Node* temp = adj[src];
+//         Node* prev = nullptr;
         
-        while(temp != nullptr){
-            if(temp -> vertex == des){
-                if(prev == nullptr){
-                    adj[src] = temp -> next;
-                }else{
-                    prev -> next = temp -> next;
-                }
+//         while(temp != nullptr){
+//             if(temp -> vertex == des){
+//                 if(prev == nullptr){
+//                     adj[src] = temp -> next;
+//                 }else{
+//                     prev -> next = temp -> next;
+//                 }
                 
-                delete temp;
-                return;
-            }
-            prev = temp;
-            temp = temp -> next;
-        }
-    }
+//                 delete temp;
+//                 return;
+//             }
+//             prev = temp;
+//             temp = temp -> next;
+//         }
+//     }
     
-    
-    void deleteVertex(int data){
-        //  Delete all outgoing edges from vertexToDelete
-        Node* temp = adj[data];
-        while(temp != nullptr){
-            Node* toDelete = temp;
-            temp = temp -> next;
-            delete toDelete;
-        }
-        adj[data] = nullptr;
+//     void deleteVertex(int data){
+//         //  Delete all outgoing edges from vertexToDelete
+//         Node* temp = adj[data];
+//         while(temp != nullptr){
+//             Node* toDelete = temp;
+//             temp = temp -> next;
+//             delete toDelete;
+//         }
+//         adj[data] = nullptr;
         
-        // Delete all incoming edges to vertexToDelete
-        for(int i = 0; i < v; i++){
-            if(i != data){
-                deleteEdge(i, data);
-            }
-        }
+//         // Delete all incoming edges to vertexToDelete
+//         for(int i = 0; i < v; i++){
+//             if(i != data){
+//                 deleteEdge(i, data);
+//             }
+//         }
         
-    }
+//     }
     
-    
-    void printGraph(){
-        for(int i = 0; i < v; i++){
-            cout<<"Vertex "<< i<<": ";
-            Node* temp = adj[i];
-            while(temp != nullptr){
-                cout<< temp -> vertex<<", ";
-                temp = temp -> next;
-            }
-            cout<<"NULL"<<endl;
-        }
-    };
-    
-};
+//     void printGraph(){
+//         for(int i = 0; i < v; i++){
+//             cout<<"Vertex "<< i<<": ";
+//             Node* temp = adj[i];
+//             while(temp != nullptr){
+//                 cout<< temp -> vertex<<", ";
+//                 temp = temp -> next;
+//             }
+//             cout<<"NULL"<<endl;
+//         }
+//     };
+// };
 
-
-int main() {
-    int vertices, edges;
-    cout<<"* Adjancy list *"<<endl;
-    cout<<"Enter number of vertices: ";
-    cin>>vertices;
+// int main() {
+//     int vertices, edges;
+//     cout<<"* Adjancy list *"<<endl;
+//     cout<<"Enter number of vertices: ";
+//     cin>>vertices;
     
-    cout<<"Enter number of edges: ";
-    cin>>edges;
+//     cout<<"Enter number of edges: ";
+//     cin>>edges;
     
-    Graph g(vertices);
+//     Graph g(vertices);
     
-    cout << "Enter edges (format: from to):" << endl;
-    for(int i = 0; i < edges; i++){
-        int u, v;
-        cout << "Edge " << i + 1 << ": ";
-        cin >> u >> v;
+//     cout << "Enter edges (format: from to):" << endl;
+//     for(int i = 0; i < edges; i++){
+//         int u, v;
+//         cout << "Edge " << i + 1 << ": ";
+//         cin >> u >> v;
         
-        if(u >= 0 && u < vertices && v >= 0 && v < vertices){
-            g.addEdge(u, v);
-        } else {
-            cout << "Invalid edge input!" << endl;
-            i--;
-        }
-    } 
+//         if(u >= 0 && u < vertices && v >= 0 && v < vertices){
+//             g.addEdge(u, v);
+//         } else {
+//             cout << "Invalid edge input!" << endl;
+//             i--;
+//         }
+//     } 
     
-    cout << "\nAdjacency List of the Graph:\n";
-    g.printGraph();    
+//     cout << "\nAdjacency List of the Graph:\n";
+//     g.printGraph();    
     
-    int start;
-    cout << "\nEnter starting vertex for BFS and DFS: ";
-    cin >> start;
+//     int start;
+//     cout << "\nEnter starting vertex for BFS and DFS: ";
+//     cin >> start;
 
-    if(start >= 0 && start < vertices){
-        g.bfs(start);
-        g.dfs(start);
-    } else {
-        cout << "Invalid starting vertex!" << endl;
-    }
+//     if(start >= 0 && start < vertices){
+//         g.bfs(start);
+//         g.dfs(start);
+//     } else {
+//         cout << "Invalid starting vertex!" << endl;
+//     }
     
-    if(g.isCyclic()){
-        cout<<"\nCycle exists in the graph.";
-    }else{
-        cout<<"\nNo cycle in the graph.";
-    }
+//     if(g.isCyclic()){
+//         cout<<"\nCycle exists in the graph.";
+//     }else{
+//         cout<<"\nNo cycle in the graph.";
+//     }
     
-    int toDelete;
-    cout << "\nEnter vertex to delete (removes its edges too): ";
-    cin >> toDelete;
-    if(toDelete >= 0 && toDelete < vertices){
-        g.deleteVertex(toDelete);
-        cout << "\nGraph after deleting vertex " << toDelete << ":\n";
-        g.printGraph();
-    }else{
-        cout << "\nInvalid vertex.";
-    }
+//     int toDeleteVertex;
+//     cout << "\nEnter vertex to delete (removes its edges too): ";
+//     cin >> toDeleteVertex;
+//     if(toDeleteVertex >= 0 && toDeleteVertex < vertices){
+//         g.deleteVertex(toDeleteVertex);
+//         cout << "\nGraph after deleting vertex " << toDeleteVertex << ":\n";
+//         g.printGraph();
+//     }else{
+//         cout << "\nInvalid vertex.";
+//     }
     
-    return 0;
-}
+//     int src, des;
+//     cout << "\nEnter edge to delete (format: from to): ";
+//     cin >> src >> des;
+//     if(src >= 0 && src < vertices && des >= 0 && des < vertices){
+//         g.deleteEdge(src, des);
+//         cout << "\nGraph after deleting edge " << src << "->" << des << ":\n";
+//         g.printGraph();
+//     } else {
+//         cout << "\nInvalid edge input!" << endl;
+//     }
+
+//     return 0;
+// }
+
 
 
 
@@ -530,4 +533,26 @@ int main() {
 //     }
 
 //     return 0;
+// }
+
+
+// void deleteEdge(int src, int des) {
+//     Node* temp = adj[src];
+//     Node* prev = nullptr;
+
+//     while (temp != nullptr) {
+//         if (temp->vertex == des) {
+//             if (prev == nullptr) {
+//                 adj[src] = temp->next;
+//             } else {
+//                 prev->next = temp->next;
+//             }
+//             delete temp;
+//             cout << "Edge from " << indexToChar(src) << " to " << indexToChar(des) << " deleted.\n";
+//             return;
+//         }
+//         prev = temp;
+//         temp = temp->next;
+//     }
+//     cout << "Edge from " << indexToChar(src) << " to " << indexToChar(des) << " not found.\n";
 // }

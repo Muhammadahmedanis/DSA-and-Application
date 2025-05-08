@@ -46,6 +46,61 @@
 
 
 
+//  prefix evaluation using stack
+
+// #include <iostream>
+// #include <stack>
+// #include <string>
+// using namespace std;
+
+// int getValue(char ch) {
+//     if(ch == 'a') return 1;
+//     if(ch == 'b') return 2;
+//     if(ch == 'c') return 4;
+//     if(ch == 'd') return 2;
+//     if(ch == 'x') return 5;
+//     return 0;
+// }
+
+// int evaluatePrefix(string expr) {
+//     stack<int> st;
+    
+//     // Traverse the expression from right to left
+//     for(int i = expr.length() - 1; i >= 0; i--) {
+//         char ch = expr[i];
+        
+//         // If the character is an operand (number or variable)
+//         if(ch >= '0' && ch <= '9') {
+//             int num = ch - '0';  // Convert char to int
+//             st.push(num);
+//         } else if(ch >= 'a' && ch <= 'z') {
+//             // If the character is a variable (a-z)
+//             st.push(getValue(ch));
+//         } else {
+//             // If the character is an operator, pop two operands
+//             int a = st.top(); st.pop();
+//             int b = st.top(); st.pop();
+            
+//             switch(ch) {
+//                 case '+': st.push(a + b); break;
+//                 case '-': st.push(a - b); break;
+//                 case '*': st.push(a * b); break;
+//                 case '/': st.push(a / b); break;
+//             }
+//         }
+//     }
+//     return st.top();  // The final result is the top of the stack
+// }
+
+// int main() {
+//     string prefixExpr = "-+/*125*5/24";
+//     cout << "Prefix evaluation result: " << evaluatePrefix(prefixExpr) << endl;
+//     return 0;
+// }
+
+
+
+
 //String Infix to Postfix conversion using stack
 
 

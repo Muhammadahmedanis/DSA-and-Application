@@ -208,6 +208,40 @@ int findMin(BSTNode* root){
 
 
 
+void findLeafWithOneChild(BSTNode* root) {
+    if (root == nullptr) {
+        return;
+    }
+
+    // If the node has exactly one child, it's a leaf node with one child.
+    if ((root->LChild && !root->RChild) || (!root->LChild && root->RChild)) {
+        cout << root->data << " ";
+    }
+
+    // Recursively check the left and right subtrees.
+    findLeafWithOneChild(root->LChild);
+    findLeafWithOneChild(root->RChild);
+}
+
+
+void findLeafNodes(BSTNode* root) {
+    if (root == nullptr) {
+        return;
+    }
+
+    // A leaf node is a node that has no left and right children
+    if (root->LChild == nullptr && root->RChild == nullptr) {
+        cout << root->data << " ";
+    }
+
+    // Recursively check the left and right subtrees
+    findLeafNodes(root->LChild);
+    findLeafNodes(root->RChild);
+}
+
+
+
+
 int findMax(BSTNode* root){
     if (!root) return INT_MIN;
 
@@ -266,6 +300,14 @@ int main() {
     root = delNode(root, 170);
     cout<<"\nAfter delete 170: ";
     preorder(root);
+
+    // Find leaf nodes with exactly one child
+    cout << "\nLeaf nodes with exactly one child: ";
+    findLeafWithOneChild(root);
+
+    // Find leaf nodes (nodes with no children)
+    cout << "\nLeaf nodes (nodes with no children): ";
+    findLeafNodes(root);
 
     return 0;
 }

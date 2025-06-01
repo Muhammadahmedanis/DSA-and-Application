@@ -216,58 +216,49 @@
 
 
 
+// 
 
 
-
-
-
-
-
-
-
-
-        #include <iostream>
-#include <cstring>
+#include <iostream>
+#include <string>
 #include <queue>
 #include <vector>
 using namespace std;
 
 // ---------------- Song Node (Doubly Linked List) ----------------
 struct SongNode {
-    char song[100];
-    SongNode* next;
-    SongNode* prev;
+    string song;
+    SongNode* next = nullptr;
+    SongNode* prev = nullptr;
 };
 
 // ---------------- BST Node for Sorted Songs ----------------
 struct BSTNode {
-    char song[100];
-    BSTNode* left;
-    BSTNode* right;
+    string song;
+    BSTNode* left = nullptr;
+    BSTNode* right = nullptr;
 };
 
 // ---------------- Playlist Struct ----------------
 struct Playlist {
-    char name[100];
-    SongNode* head;
-    SongNode* tail;
-    BSTNode* bstRoot;
-    SongNode* recentTop;
+    string name;
+    SongNode* head = nullptr;
+    SongNode* tail = nullptr;
+    BSTNode* bstRoot = nullptr;
+    SongNode* recentTop = nullptr;
     queue<string> playNextQueue;
-    Playlist* next;
+    Playlist* next = nullptr;
 };
 
 Playlist* playlistsHead = nullptr;
 
-SongNode* createSongNode(const char* songName) {
+SongNode* createSongNode(const string& songName) {
     SongNode* node = new SongNode;
-    strcpy(node->song, songName);
-    node->next = nullptr;
-    node->prev = nullptr;
+    node->song = songName;
     return node;
 }
 
-void addSongToPlaylist(Playlist* pl, const char* songName) {
+void addSongToPlaylist(Playlist* pl, const string& songName) {
     SongNode* newNode = createSongNode(songName);
     newNode->prev = pl->tail;
     if (pl->tail)
@@ -295,14 +286,20 @@ int countSongsInPlaylist(Playlist* pl) {
     return count;
 }
 
-void deleteSongFromPlaylist(Playlist* pl, const char* songName) {
+void deleteSongFromPlaylist(Playlist* pl, const string& songName) {
     SongNode* curr = pl->head;
     while (curr) {
-        if (strcmp(curr->song, songName) == 0) {
-            if (curr->prev) curr->prev->next = curr->next;
-            else pl->head = curr->next;
-            if (curr->next) curr->next->prev = curr->prev;
-            else pl->tail = curr->prev;
+        if (curr->song == songName) {
+            if (curr->prev)
+                curr->prev->next = curr->next;
+            else
+                pl->head = curr->next;
+
+            if (curr->next)
+                curr->next->prev = curr->prev;
+            else
+                pl->tail = curr->prev;
+
             delete curr;
             cout << "\nSong \"" << songName << "\" deleted from playlist.\n";
             return;
@@ -312,16 +309,15 @@ void deleteSongFromPlaylist(Playlist* pl, const char* songName) {
     cout << "\nSong not found in playlist.\n";
 }
 
-BSTNode* insertBST(BSTNode* root, const char* songName) {
+BSTNode* insertBST(BSTNode* root, const string& songName) {
     if (!root) {
         BSTNode* node = new BSTNode;
-        strcpy(node->song, songName);
-        node->left = node->right = nullptr;
+        node->song = songName;
         return node;
     }
-    if (strcmp(songName, root->song) < 0)
+    if (songName < root->song)
         root->left = insertBST(root->left, songName);
-    else if (strcmp(songName, root->song) > 0)
+    else if (songName > root->song)
         root->right = insertBST(root->right, songName);
     return root;
 }
@@ -333,11 +329,10 @@ void displaySortedSongs(BSTNode* root) {
     displaySortedSongs(root->right);
 }
 
-void pushRecentSong(Playlist* pl, const char* songName) {
-    if (!pl->recentTop || strcmp(pl->recentTop->song, songName) != 0) {
+void pushRecentSong(Playlist* pl, const string& songName) {
+    if (!pl->recentTop || pl->recentTop->song != songName) {
         SongNode* newNode = createSongNode(songName);
         newNode->next = pl->recentTop;
-        newNode->prev = nullptr;
         pl->recentTop = newNode;
     }
 }
@@ -362,8 +357,7 @@ void showLastPlayedSong(Playlist* pl) {
 void enqueuePlayNext(Playlist* pl) {
     string song;
     cout << "\nEnter song name to enqueue for next play: ";
-    cin >> ws;
-    getline(cin, song);
+    getline(cin >> ws, song);
     pl->playNextQueue.push(song);
     cout << "Song added to play-next queue.\n";
 }
@@ -376,39 +370,34 @@ void playFromQueue(Playlist* pl) {
     string song = pl->playNextQueue.front();
     pl->playNextQueue.pop();
     cout << "\nNow playing from queue: " << song << endl;
-    pushRecentSong(pl, song.c_str());
+    pushRecentSong(pl, song);
 }
 
 void playSongFromPlaylist(Playlist* pl) {
     displayPlaylistSongs(pl);
     cout << "\nEnter song to play: ";
-    char song[100];
-    cin >> ws;
-    cin.getline(song, 100);
-    SongNode* curr = pl->head;
-    while (curr) {
-        if (strcmp(curr->song, song) == 0) {
+    string song;
+    getline(cin >> ws, song);
+    for (SongNode* curr = pl->head; curr; curr = curr->next) {
+        if (curr->song == song) {
             cout << "\nNow playing: " << curr->song << endl;
             pushRecentSong(pl, curr->song);
             return;
         }
-        curr = curr->next;
     }
     cout << "\nSong not found in playlist.\n";
 }
 
-Playlist* createPlaylist(const char* playlistName) {
+Playlist* createPlaylist(const string& playlistName) {
     Playlist* pl = new Playlist;
-    strcpy(pl->name, playlistName);
-    pl->head = pl->tail = nullptr;
-    pl->bstRoot = nullptr;
-    pl->recentTop = nullptr;
-    while (!pl->playNextQueue.empty()) pl->playNextQueue.pop();
-    pl->next = nullptr;
+    pl->name = playlistName;
 
-    if (!playlistsHead) {
+    while (!pl->playNextQueue.empty())
+        pl->playNextQueue.pop();
+
+    if (!playlistsHead)
         playlistsHead = pl;
-    } else {
+    else {
         Playlist* curr = playlistsHead;
         while (curr->next) curr = curr->next;
         curr->next = pl;
@@ -416,10 +405,10 @@ Playlist* createPlaylist(const char* playlistName) {
     return pl;
 }
 
-Playlist* findPlaylist(const char* playlistName) {
+Playlist* findPlaylist(const string& playlistName) {
     Playlist* curr = playlistsHead;
     while (curr) {
-        if (strcmp(curr->name, playlistName) == 0)
+        if (curr->name == playlistName)
             return curr;
         curr = curr->next;
     }
@@ -463,9 +452,8 @@ int main() {
 
         if (choice == 1) {
             cout << "Enter new playlist name: ";
-            char name[100];
-            cin >> ws;
-            cin.getline(name, 100);
+            string name;
+            getline(cin >> ws, name);
             if (findPlaylist(name)) {
                 cout << "Playlist already exists!\n";
             } else {
@@ -474,9 +462,8 @@ int main() {
             }
         } else if (choice >= 2 && choice <= 11) {
             cout << "Enter playlist name: ";
-            char plName[100];
-            cin >> ws;
-            cin.getline(plName, 100);
+            string plName;
+            getline(cin >> ws, plName);
             Playlist* pl = findPlaylist(plName);
             if (!pl) {
                 cout << "Playlist not found!\n";
@@ -484,17 +471,15 @@ int main() {
             }
             if (choice == 2) {
                 cout << "Enter song name to add: ";
-                char songName[100];
-                cin >> ws;
-                cin.getline(songName, 100);
+                string songName;
+                getline(cin >> ws, songName);
                 addSongToPlaylist(pl, songName);
                 pl->bstRoot = insertBST(pl->bstRoot, songName);
                 cout << "Song added to playlist.\n";
             } else if (choice == 3) {
                 cout << "Enter song name to delete: ";
-                char songName[100];
-                cin >> ws;
-                cin.getline(songName, 100);
+                string songName;
+                getline(cin >> ws, songName);
                 deleteSongFromPlaylist(pl, songName);
             } else if (choice == 4) {
                 displayPlaylistSongs(pl);
@@ -522,141 +507,6 @@ int main() {
             cout << "Invalid choice. Try again.\n";
         }
     } while (choice != 13);
-
-    return 0;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#include <iostream>
-#include <vector>
-#include <queue>
-#include <algorithm>
-using namespace std;
-
-struct Edge {
-    int u, v, w;
-};
-
-bool compare(const Edge &a, const Edge &b) {
-    return a.w < b.w;
-}
-
-class Graph {
-    int V;
-    vector<vector<pair<int, int>>> adj; // Adjacency list: (neighbor, weight)
-    vector<Edge> edges;
-
-    // Union-Find helpers
-    vector<int> parent;
-
-    int findParent(int u) {
-        if (parent[u] == u) return u;
-        return parent[u] = findParent(parent[u]);
-    }
-
-    void unionSets(int u, int v) {
-        parent[findParent(u)] = findParent(v);
-    }
-
-public:
-    Graph(int V) : V(V) {
-        adj.resize(V);
-    }
-
-    void addEdge(int u, int v, int w) {
-        adj[u].push_back({v, w});
-        adj[v].push_back({u, w});
-        edges.push_back({u, v, w});
-    }
-
-    void primMST() {
-        vector<bool> visited(V, false);
-        vector<int> key(V, 1e9), parent(V, -1);
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;
-
-        key[0] = 0;
-        pq.push({0, 0});
-        int totalCost = 0;
-
-        while (!pq.empty()) {
-            int u = pq.top().second;
-            pq.pop();
-
-            if (visited[u]) continue;
-            visited[u] = true;
-            totalCost += key[u];
-
-            for (const auto &neighbor : adj[u]) {
-                int v = neighbor.first;
-                int w = neighbor.second;
-
-                if (!visited[v] && w < key[v]) {
-                    key[v] = w;
-                    parent[v] = u;
-                    pq.push({w, v});
-                }
-            }
-        }
-
-        cout << "\nPrim's MST:\n";
-        for (int i = 1; i < V; i++)
-            cout << parent[i] << " - " << i << " : " << key[i] << "\n";
-        cout << "Total cost: " << totalCost << "\n";
-    }
-
-    void kruskalMST() {
-        sort(edges.begin(), edges.end(), compare);
-        parent.resize(V);
-        for (int i = 0; i < V; i++) parent[i] = i;
-
-        int totalCost = 0;
-        cout << "\nKruskal's MST:\n";
-        for (const auto &e : edges) {
-            if (findParent(e.u) != findParent(e.v)) {
-                unionSets(e.u, e.v);
-                cout << e.u << " - " << e.v << " : " << e.w << "\n";
-                totalCost += e.w;
-            }
-        }
-        cout << "Total cost: " << totalCost << "\n";
-    }
-};
-
-int main() {
-    int V, E;
-    cout << "Enter number of vertices and edges: ";
-    cin >> V >> E;
-
-    Graph g(V);
-    cout << "Enter edges (u v weight):\n";
-    for (int i = 0; i < E; ++i) {
-        int u, v, w;
-        cin >> u >> v >> w;
-        g.addEdge(u, v, w);
-    }
-
-    g.primMST();
-    g.kruskalMST();
 
     return 0;
 }
